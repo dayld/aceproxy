@@ -183,7 +183,7 @@ class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.reqtype = self.splittedpath[1].lower()
             # If first parameter is 'pid' or 'torrent' or it should be handled
             # by plugin
-            if not (self.reqtype in ('pid', 'torrent') or self.reqtype in AceStuff.pluginshandlers):
+            if not (self.reqtype in ('pid', 'torrent', 'env') or self.reqtype in AceStuff.pluginshandlers):
                 self.dieWithError(400)  # 400 Bad Request
                 return
         except IndexError:
@@ -209,7 +209,7 @@ class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         #                      |_________|
         # And if it ends with regular video extension
         try:
-            if not self.path.endswith(('.3gp', '.avi', '.flv', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogv', '.ts')):
+            if not self.path.endswith(('.3gp', '.avi', '.flv', '.mkv', '.mov', '.mp4', '.mpeg', '.mpg', '.ogv', '.ts', 'env/')):
                 logger.error("Request seems like valid but no valid video extension was provided")
                 self.dieWithError(400)
                 return
@@ -259,6 +259,8 @@ class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         # Or torrent url MD5 hash if torrent requested
         if self.reqtype == 'pid':
             self.vlcid = self.path_unquoted
+        elif self.reqtype == 'env':
+            self.vlcid = AceConfig.stream_id
         else:
             self.vlcid = hashlib.md5(self.path_unquoted).hexdigest()
 
@@ -311,6 +313,9 @@ class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 if self.reqtype == 'pid':
                     contentinfo = self.ace.START(
                         self.reqtype, {'content_id': self.path_unquoted, 'file_indexes': self.params[0]})
+                elif self.reqtype == 'env':
+                    contentinfo = self.ace.START(
+                        'pid', {'content_id': AceConfig.stream_id, 'file_indexes': self.params[0]})
                 elif self.reqtype == 'torrent':
                     paramsdict = dict(
                         zip(aceclient.acemessages.AceConst.START_TORRENT, self.params))

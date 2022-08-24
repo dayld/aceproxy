@@ -5,6 +5,7 @@ Edit this file.
 
 import logging
 import acedefconfig
+import os
 from aceclient.acemessages import AceConst
 
 
@@ -13,8 +14,9 @@ class AceConfig(acedefconfig.AceDefConfig):
     # Ace Stream Engine configuration
     # ----------------------------------------------------
     #
+    stream_id = os.getenv('STREAM_ID')
     # Spawn Ace Stream Engine automatically
-    acespawn = False
+    acespawn = True
     # Ace Stream cmd line (use `--log-file filepath` to write log)
     # Autodetect for Windows
     acecmd = "acestreamengine --client-console"
