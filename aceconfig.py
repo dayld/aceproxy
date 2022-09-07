@@ -87,7 +87,7 @@ class AceConfig(acedefconfig.AceDefConfig):
     # To use this, you should install VLC first
     # And run it with:
     # vlc -I telnet --clock-jitter 0 --network-caching 500 --telnet-pass admin
-    vlcuse = False
+    vlcuse = True
     # Use AceStream player that comes with engine
     # If true than proxy will detect a path to ace_player.exe and ace_player.exe will be spawned
     # It also will not check if vlc.exe is running, it will watch over ace_player.exe process
@@ -97,7 +97,7 @@ class AceConfig(acedefconfig.AceDefConfig):
     # to point ace_player.exe, not vlc.exe!!!
     vlcuseaceplayer = False
     # Spawn VLC automaticaly
-    vlcspawn = False
+    vlcspawn = True
     # VLC cmd line (use `--file-logging --logfile=filepath` to write log)
     # Please use the full path to executable for Windows, for example - C:\\Program Files\\VideoLAN\\VLC\\vlc.exe
     vlccmd = "vlc -I telnet --clock-jitter -1 --network-caching -1 --sout-mux-caching 2000 --telnet-password admin --telnet-port 4212"
@@ -129,31 +129,31 @@ class AceConfig(acedefconfig.AceDefConfig):
     # !!!
     # PLEASE set this to 0 if you use VLC
     # !!!
-    videodelay = 2
+    videodelay = 0
     # Obey PAUSE and RESUME commands from Engine
     # (stops sending data to client, should prevent annoying buffering)
     # !!!
     # PLEASE set this to False if you use VLC
     # !!!
-    videoobey = True
+    videoobey = False
     # Stream send delay after PAUSE/RESUME commands (works only if option
     # above is enabled)
     # !!!
     # PLEASE set this to 0 if you use VLC
     # !!!
-    videopausedelay = 2
+    videopausedelay = 0
     # Seek back feature.
     # Seeks stream back for specified amount of seconds.
     # Greatly helps fighing AceSteam lags, but introduces
     # video stream delay.
     # Set it to 30 or so.
     # Works only with the newest versions of AceEngine!
-    videoseekback = 0
+    videoseekback = 60
     # Delay before closing Ace Stream connection when client disconnects
     # In seconds.
     videodestroydelay = 3
     # Pre-buffering timeout. In seconds.
-    videotimeout = 40
+    videotimeout = 60
     #
     # Some video players (mostly STBs and Smart TVs) can generate dummy requests
     # to detect MIME-type or something before playing which Ace Stream handles badly.
